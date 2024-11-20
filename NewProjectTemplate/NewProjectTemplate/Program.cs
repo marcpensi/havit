@@ -1,4 +1,5 @@
 using Havit.Blazor.Components.Web;
+using Havit.Blazor.Components.Web.Bootstrap;
 using NewProjectTemplate.Client.Pages;
 using NewProjectTemplate.Components;
 
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
 	.AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddHxServices();
+builder.Services.AddHxMessenger();
+builder.Services.AddHxMessageBoxHost();
 
 var app = builder.Build();
 
