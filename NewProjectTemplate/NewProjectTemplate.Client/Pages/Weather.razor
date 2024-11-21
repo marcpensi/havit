@@ -6,58 +6,42 @@
 
 <p>This component demonstrates showing data.</p>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<HxGrid TItem="WeatherForecast" DataProvider="GetGridData" SelectionEnabled="false" Hover="true">
+	<Columns>
+		<HxGridColumn HeaderText="Date" ItemTextSelector="forecast => forecast.Date.ToShortDateString()" />
+		<HxGridColumn HeaderText="Temp. (C)" ItemTextSelector="forecast => forecast.TemperatureC.ToString()" />
+		<HxGridColumn HeaderText="Temp. (F)" ItemTextSelector="forecast => forecast.TemperatureF.ToString()" />
+		<HxGridColumn HeaderText="Summary" ItemTextSelector="forecast => forecast.Summary" />
+	</Columns>
+</HxGrid>
 
 @code {
-    private WeatherForecast[]? forecasts;
+	private async Task<GridDataProviderResult<WeatherForecast>> GetGridData(GridDataProviderRequest<WeatherForecast> request)
+	{
+		// Simulate asynchronous loading to demonstrate a loading indicator
+		await Task.Delay(500);
 
-    protected override async Task OnInitializedAsync()
-    {
-        // Simulate asynchronous loading to demonstrate a loading indicator
-        await Task.Delay(500);
+		var startDate = DateOnly.FromDateTime(DateTime.Now);
+		var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
+		var forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+			{
+				Date = startDate.AddDays(index),
+				TemperatureC = Random.Shared.Next(-20, 55),
+				Summary = summaries[Random.Shared.Next(summaries.Length)]
+			});
 
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
-    }
+		return new GridDataProviderResult<WeatherForecast>()
+			{
+				Data = forecasts,
+				TotalCount = forecasts.Count()
+			};
+	}
 
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
+	private class WeatherForecast
+	{
+		public DateOnly Date { get; set; }
+		public int TemperatureC { get; set; }
+		public string? Summary { get; set; }
+		public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+	}
 }
