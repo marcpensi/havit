@@ -26,6 +26,7 @@
 2. Clone the new repository to your local machine.
    Alternatively, you can download the template to your computer if you do not want to use GitHub to maintain your source code.
 3. Run the `SetSolutionName.ps1` script (PowerShell) to rename the solution and projects.
+   (You might need to adjust PowerShell execution policy to be able to run this script.)
 4. Remove unnecessary files:
    * `SetSolutionName.ps1`
    * `LICENSE.txt` - This license applies to the template, not your project.
