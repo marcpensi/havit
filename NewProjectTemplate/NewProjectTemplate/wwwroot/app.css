@@ -1,6 +1,11 @@
 :root {
-	--hx-sidebar-background-color: rgb(253, 253, 253);
-	--hx-sidebar-width: 280px;
+	/* Sidebar adjustments, .bg-body-secondary class also used for basic color with dark mode support */
+	--hx-sidebar-item-hover-background-color: var(--bs-emphasis-color-rgb);
+	--hx-sidebar-item-active-background-color: var(--bs-emphasis-color-rgb);
+	--hx-sidebar-item-active-color: var(--bs-emphasis-color);
+	--hx-sidebar-item-hover-color: var(--bs-emphasis-color);
+	--hx-sidebar-item-icon-color: var(--bs-secondary-color);
+	--hx-sidebar-parent-item-active-icon-color: var(--bs-secondary-color);
 }
 
 h1:focus {
